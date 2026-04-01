@@ -1,11 +1,10 @@
 import 'dotenv/config';
-import sequelize from "./config.js"; 
-import '../models/userModel.js';
-import '../models/movieModel.js';
+import sequelize from "./config"; 
+import '../models/userModel';
+import '../models/movieModel';
 
 
 const connectDb = async () => {
-    
 
     try {
         await sequelize.authenticate();
