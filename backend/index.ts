@@ -1,7 +1,7 @@
 import express from 'express';
 import 'dotenv/config'; 
-import connectDb from './database/db.js'; 
-import superRoute from './routes/superRoute.js';                 
+import connectDb from './database/db'; 
+import superRoute from './routes/superRoute';                 
 
 const app = express();
 const PORT = process.env.PORT ||3000;
