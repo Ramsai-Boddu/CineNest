@@ -1,5 +1,6 @@
 import express from 'express';
-import { createUser, getMovies, getUsers } from '../controller/superController';
+import { createUser, getUsers } from '../controller/superController';
+import { getMovies } from '../controller/movieController';
 
 const router = express.Router();
 
