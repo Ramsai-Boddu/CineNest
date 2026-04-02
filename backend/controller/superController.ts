@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import Movies from "../models/movieModel";
 import User from "../models/userModel";
 
-// CREATE USER
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { name, email } = req.body;
@@ -39,7 +38,6 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
   }
 };
 
-// GET USERS
 export const getUsers = async (req: Request, res: Response): Promise<Response> => {
   try {
     const users = await User.findAll();
