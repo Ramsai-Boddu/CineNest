@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, resetPassword, sendOtp } from '../controller/adminController';
+import { login, logout, resetPassword, sendOtp } from '../controller/adminController';
 import { addMovie, deleteMovie, getMoviesByUser, updateMovie } from '../controller/movieController';
 
 const router = express.Router();
@@ -11,6 +11,8 @@ router.put('/update-movie/:id',updateMovie)
 router.delete("/delete-movie/:id",deleteMovie);
 router.put("/send-otp", sendOtp);
 router.put("/reset-password", resetPassword);
+router.put("/logout/:id", logout);
+    
 
 
 export default router;

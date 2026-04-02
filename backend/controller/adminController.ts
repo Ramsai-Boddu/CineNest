@@ -171,3 +171,26 @@ export const resetPassword = async (req: Request, res: Response): Promise<Respon
     });
   }
 };
+export const logout = async (req: Request, res:Response): Promise<Response> => {
+  try {
+    const id = req.params.id as string;
+    const user = await User.findOne({where: {id}}) as any
+    if(!user){
+      return res.status(400).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+    user.isLoggedIn = false;
+    await user.save();
+    return res.status(200).json({
+      status: true,
+      message: "Logout successful",
+    });
+  } catch (error:any) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+}
