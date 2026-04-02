@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import 'dotenv/config';
-import { ref } from "node:process";
+import { sendOTPMail } from "../verify/sendEmail";
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -47,6 +47,121 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       data: userData,
       accessToken,
       refreshToken
+    });
+
+  } catch (error: any) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+export const sendOtp = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { email } = req.body;
+
+    // 1. Validate email
+    if (!email) {
+      return res.status(400).json({
+        status: false,
+        message: "Email is required",
+      });
+    }
+
+    const user = await User.findOne({ where: { email } }) as any;
+
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+    sendOTPMail(otp, email);
+    return res.status(200).json({
+      status: true,
+      message: "OTP sent successfully"
+    });
+
+  } catch (error: any) {
+    return res.status(500).json({
+      status: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export const resetPassword = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { email, otp, newPassword, confirmPassword } = req.body;
+
+    if (!email || !otp || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "All fields are required",
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        status: false,
+        message: "Passwords do not match",
+      });
+    }
+
+    const user = await User.findOne({ where: { email } }) as any;
+
+    if (!user) {
+      return res.status(400).json({
+        status: false,
+        message: "User not found",
+      });
+    }
+
+    if (!user.otp || !user.otpExpiry) {
+      return res.status(400).json({
+        status: false,
+        message: "OTP not generated or already used",
+      });
+    }
+
+    if (new Date() > new Date(user.otpExpiry)) {
+      return res.status(400).json({
+        status: false,
+        message: "OTP expired",
+      });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({
+        status: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // 7. Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+
+    user.otp = null;
+    user.otpExpiry = null;
+
+    await user.save();
+
+    return res.status(200).json({
+      status: true,
+      message: "Password reset successful",
     });
 
   } catch (error: any) {
