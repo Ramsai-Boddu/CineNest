@@ -9,4 +9,6 @@ router.post("/add-movie",  addMovie);
 router.get("/get-movie/:userId", getMoviesByUser);
 router.put('/update-movie/:id',updateMovie)
 router.delete("/delete-movie/:id",deleteMovie);
+
+
 export default router;

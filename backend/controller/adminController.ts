@@ -1,5 +1,9 @@
 import User from "../models/userModel";
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import 'dotenv/config';
+import { ref } from "node:process";
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -21,21 +25,28 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       });
     }
 
-    // Plain password check (only for learning)
-    if (user.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordValid) {
       return res.status(400).json({
-        status: false,
-        message: "Invalid credentials",
-      });
+        success: false,
+        message: "Invalid password"
+      })
     }
 
-    // Remove password before sending response
+    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '10m' });
+    const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: '20m' });
+
+    user.isLoggedIn = true;
+    await user.save();
     const { password: _, ...userData } = user.toJSON();
 
     return res.status(200).json({
       status: true,
       message: "Login successful",
       data: userData,
+      accessToken,
+      refreshToken
     });
 
   } catch (error: any) {
