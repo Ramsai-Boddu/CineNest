@@ -99,8 +99,6 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
   }
 };
 
-
-
 export const resetPassword = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { email, otp, newPassword, confirmPassword } = req.body;
