@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, logout, resetPassword, sendOtp } from '../controller/adminController';
+import { login, logout, resetPassword, sendOtp, updateUser } from '../controller/adminController';
 import { addMovie, deleteMovie, getMoviesByUser, updateMovie } from '../controller/movieController';
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.delete("/delete-movie/:id",deleteMovie);
 router.put("/send-otp", sendOtp);
 router.put("/reset-password", resetPassword);
 router.put("/logout/:id", logout);
+router.put('/update-user/:id',updateUser);
     
 
 
