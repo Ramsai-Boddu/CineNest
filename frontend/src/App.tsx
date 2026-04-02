@@ -1,11 +1,11 @@
 import './App.css'
-
+import Navbar from './pages/navbar';
 function App() {
 
   return (
     <>
       <div>
-        <h1>Welcome to CineNest</h1>
+       <Navbar/>
       </div>  
     </>
   )
