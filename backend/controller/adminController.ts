@@ -169,7 +169,6 @@ export const resetPassword = async (req: Request, res: Response): Promise<Respon
     });
   }
 };
-
 export const logout = async (req: Request, res:Response): Promise<Response> => {
   try {
     const id = req.params.id as string;
