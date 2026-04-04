@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import 'dotenv/config';
 import { sendOTPMail } from "../verify/sendEmail";
+import cloudinary from "../utils/cloudinary";
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -169,11 +170,36 @@ export const resetPassword = async (req: Request, res: Response): Promise<Respon
     });
   }
 };
-export const logout = async (req: Request, res:Response): Promise<Response> => {
+
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findByPk(req.params.id as string);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const logout = async (req: Request, res: Response): Promise<Response> => {
   try {
     const id = req.params.id as string;
-    const user = await User.findOne({where: {id}}) as any
-    if(!user){
+    const user = await User.findOne({ where: { id } }) as any
+    if (!user) {
       return res.status(400).json({
         status: false,
         message: "User not found",
@@ -185,7 +211,7 @@ export const logout = async (req: Request, res:Response): Promise<Response> => {
       status: true,
       message: "Logout successful",
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return res.status(500).json({
       status: false,
       message: error.message,
@@ -193,47 +219,87 @@ export const logout = async (req: Request, res:Response): Promise<Response> => {
   }
 }
 
+interface AuthRequest extends Request {
+  user?: any;
+  file?: Express.Multer.File;
+}
 
-
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: AuthRequest, res: Response) => {
   try {
-    
-    const id = req.params.id as string; 
+    const userId = req.params.id;
 
-    if (!id) {
+    if (!userId) {
       return res.status(400).json({
-        message: "Id is required"
+        success: false,
+        message: "User ID is required",
       });
     }
 
-   
-    const user = await User.findByPk(id);
+    const loggedInUser = req.user;
+
+    console.log("LoggedIn User:", loggedInUser);
+    console.log("Param UserId:", userId);
+    if (
+      loggedInUser?.id !== userId &&
+      loggedInUser?.role !== "admin"
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "Not allowed to update this user",
+      });
+    }
+
+    const user = await User.findByPk(userId as string);
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found"
+        success: false,
+        message: "User not found",
       });
     }
 
-   
-    await user.update(req.body);
+    const { name, email } = req.body;
 
-    return res.status(200).json({
-      message: "User updated successfully",
-      user
+    // 🖼️ Existing image
+    let profilePic = user.getDataValue("profilePic");
+
+    // 🔥 FIXED FILE HANDLING
+    const file = req.file;
+
+    if (file) {
+      const uploadResult: any = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "profiles" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+
+        stream.end(file.buffer); // ✅ NO ERROR
+      });
+
+      profilePic = uploadResult.secure_url;
+    }
+
+    // ✏️ Update user
+    await user.update({
+      name: name ?? user.getDataValue("name"),
+      email: email ?? user.getDataValue("email"),
+      profilePic,
     });
 
-  } catch (error) {
-    if (error instanceof Error) {
-      return res.status(500).json({
-        message: "Error updating user",
-        error: error.message
-      });
-    }
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user,
+    });
 
+  } catch (error: any) {
     return res.status(500).json({
-      message: "Unknown error"
+      success: false,
+      message: "Error updating user",
+      error: error.message,
     });
   }
 };
-

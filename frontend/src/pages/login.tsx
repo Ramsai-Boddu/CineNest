@@ -59,7 +59,9 @@ const Login = () => {
       console.log("Login success:", res.data);
 
       localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("userId", res.data.data.id);
       localStorage.setItem("role", res.data.data.role);
+      localStorage.setItem("profilePic", res.data.data.profilePic);
       navigate("/",{ replace: true });
 
     } catch (err:any) {
@@ -108,7 +110,7 @@ const Login = () => {
         </form>
 
         <p className="register-text">
-           <a href="/forgotpassword">Forgot Password</a>
+           <a href="/forgot-password">Forgot Password</a>
         </p>
       </div>
     </div>

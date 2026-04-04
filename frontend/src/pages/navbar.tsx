@@ -6,6 +6,7 @@ const Navbar = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const role = localStorage.getItem("role");
+  const url = localStorage.getItem("profilePic") || "/noprofile.png";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,27 +20,38 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const userId = localStorage.getItem("userId");
+
   return (
     <div className='navheader'>
       <div className='logo'>
-        <img src="/logo.png" alt="CineNest Logo" className='logoimg'/>
+        <img src="/logo.png" alt="CineNest Logo" className='logoimg' />
         <h2 className='name'>CineNest</h2>
       </div>
-      
+
       <div className='navlinks'>
         <a href="/">Home</a>
         <a href="/movies">Movies</a>
 
         {role === "admin" && (
-          <a href="/add-user">Add Admin</a>
+          <>
+            <a href="/add-user">Add Admin</a>
+            <a href="/get-users">Get Admins</a>
+          </>
         )}
 
         {isLoggedIn ? (
           <>
-            <a href="/profile">
-              <img src="/noprofile.png" alt="Profile" className='navimg'/>
-            </a>
-            <a onClick={handleLogout}>
+            <div
+              onClick={() => navigate(`/update/${userId}`)}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={url} alt="Profile" className='navimg' />
+            </div>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <a onClick={handleLogout} style={{ cursor: "pointer" }}>
               Logout
             </a>
           </>

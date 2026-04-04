@@ -5,25 +5,64 @@ import Login from './pages/login';
 import Navbar from './pages/navbar';
 import AddUsers from './pages/add-users';
 import ForgotPassword from './pages/forgot-password';
+import Getusers from './pages/get-users';
+import UpdateUser from './pages/update-profile';
+import ProtectedRoute from './pages/protectedRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <><Navbar /><Adminhome /></>
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <Adminhome />
+        </>
+      </ProtectedRoute>
+    )
   },
   {
     path: '/login',
-    element: <><Login /></>
-  },
-  {
-    path: '/add-user',
-    element: <><Navbar /><AddUsers /></>
+    element: <Login />
   },
   {
     path: '/forgot-password',
-    element: <><ForgotPassword /></>
+    element: <ForgotPassword />
+  },
+  {
+    path: '/add-user',
+    element: (
+      <ProtectedRoute adminOnly={true}>
+        <>
+          <Navbar />
+          <AddUsers />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/get-users',
+    element: (
+      <ProtectedRoute adminOnly={true}>
+        <>
+          <Navbar />
+          <Getusers />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/update/:userId',
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <UpdateUser />
+        </>
+      </ProtectedRoute>
+    )
   }
-])
+]);
 
 function App() {
 

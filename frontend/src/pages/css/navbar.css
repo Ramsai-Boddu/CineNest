@@ -17,6 +17,7 @@
 .name{
     font-size: 30px;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 .logo{
@@ -42,11 +43,18 @@
     text-decoration: none;
 }
 
+a{
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+}
+
 .navlinks a:hover {
     text-decoration: underline;
 }
 
 .navimg {
-    width: 45px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
 }

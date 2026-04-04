@@ -1,0 +1,130 @@
+.user-container {
+  padding: 30px;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+
+.users-table {
+  width: 85%;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.users-table h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* ✅ BALANCED WIDTHS (TOTAL = 100%) */
+th:nth-child(1) { width: 15%; }  /* Name */
+th:nth-child(2) { width: 25%; }  /* Email */
+th:nth-child(3) { width: 20%; }  /* Password */
+th:nth-child(4) { width: 10%; }  /* Logged In */
+th:nth-child(5) { width: 15%; }  /* Active */
+th:nth-child(6) { width: 15%; }  /* Update */
+
+th {
+  background: #f1f3f5;
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle; /* 🔥 critical */
+}
+
+/* Hover */
+tr:hover {
+  background: #f9f9f9;
+}
+
+/* ✅ CENTER ONLY REQUIRED COLUMNS */
+th:nth-child(4),
+td:nth-child(4),
+th:nth-child(5),
+td:nth-child(5),
+th:nth-child(6),
+td:nth-child(6) {
+  text-align: center;
+}
+
+/* PASSWORD BOX */
+.password-cell {
+  max-width: 180px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f1f3f5;
+  font-size: 13px;
+}
+
+/* Scrollbar */
+.password-cell::-webkit-scrollbar {
+  height: 5px;
+}
+
+.password-cell::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 10px;
+}
+
+/* ✅ BUTTON BASE */
+.activate-btn,
+.deactivate-btn,
+.update-btn {
+  width: 100px;
+  height: 36px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: auto; /* 🔥 THIS centers inside column */
+}
+
+/* COLORS */
+.activate-btn {
+  background: #28a745;
+  color: white;
+}
+
+.activate-btn:hover {
+  background: #218838;
+}
+
+.deactivate-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.deactivate-btn:hover {
+  background: #c82333;
+}
+
+.update-btn {
+  background: #007bff;
+  color: white;
+}
+
+.update-btn:hover {
+  background: #0056b3;
+}
