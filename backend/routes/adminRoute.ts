@@ -4,7 +4,7 @@ import { addMovie, deleteMovie, getMoviesByUser, updateMovie } from '../controll
 
 const router = express.Router();
 
-router.put('/login', login);
+router.post('/login', login);
 router.post("/add-movie",  addMovie);
 router.get("/get-movie/:userId", getMoviesByUser);
 router.put('/update-movie/:id',updateMovie)

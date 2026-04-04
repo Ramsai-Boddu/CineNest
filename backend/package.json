@@ -6,7 +6,7 @@
   "author": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only index.ts"
+    "start": "nodemon --exec ts-node index.ts"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

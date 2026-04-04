@@ -1,23 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
 .navheader {
-    width: 100%;
+  width: 100%;   /* full screen width */
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  background-color: white;
+  padding: 5px;
+}
+
+.name{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.logo{
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: white;
-    padding: 10px 20px;
+    margin-left: 80px;
 }
 
 .logoimg {
-    width: 100px;
+    width: 60px;
+}
+
+.navlinks {
+    display: flex;
+    align-items: center;
+    margin-right: 90px;
 }
 
 .navlinks a {
+    font-size: 20px;
     color: black;
-    margin-left: 20px;
+    margin-right: 40px;
     text-decoration: none;
-    font-size: 16px;
 }
 
 .navlinks a:hover {
-    color: blue;
+    text-decoration: underline;
+}
+
+.navimg {
+    width: 45px;
+    border-radius: 50%;
 }
