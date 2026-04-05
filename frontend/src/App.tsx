@@ -9,6 +9,9 @@ import Getusers from './pages/get-users';
 import UpdateUser from './pages/update-profile';
 import ProtectedRoute from './pages/protectedRoute';
 import AddMovie from './pages/add-movies';
+import GetMovies from './pages/get-movies';
+import UpdateMovie from './pages/update-movies';
+import GetSuperMovies from './pages/super-movies';
 
 const router = createBrowserRouter([
   {
@@ -70,6 +73,39 @@ const router = createBrowserRouter([
         <>
           <Navbar />
           <AddMovie />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/movies',
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <GetMovies />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/update-movie/:movieId',
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <UpdateMovie />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/all-movies',
+    element: (
+      <ProtectedRoute adminOnly={true}>
+        <>
+          <Navbar />
+          <GetSuperMovies />
         </>
       </ProtectedRoute>
     )

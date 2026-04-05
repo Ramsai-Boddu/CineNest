@@ -36,7 +36,9 @@ const Navbar = () => {
 
       <div className='navlinks'>
         <a href="/">Home</a>
-        <a href="/movies">Movies</a>
+        <a href={role === "user" ? "/movies" : "/all-movies"}>
+          Movies
+        </a>
 
         {role == "user" && (
           <a href="/add-movie">Add Movie</a>
