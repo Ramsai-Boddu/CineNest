@@ -20,6 +20,7 @@ const AddMovie = () => {
 
     const token = localStorage.getItem("accessToken");
 
+    // ✅ FIX: clean handler
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
             ...form,
@@ -28,7 +29,7 @@ const AddMovie = () => {
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
+        if (e.target.files && e.target.files.length > 0) {
             setFile(e.target.files[0]);
         }
     };
@@ -48,19 +49,25 @@ const AddMovie = () => {
                 formData.append("file", file);
             }
 
+            // 🔥 DEBUG (optional)
+            console.log("Submitting...");
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
+
             await axios.post(
                 "http://localhost:3000/admin/add-movie",
                 formData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`, // ✅ ONLY THIS
                     },
                 }
             );
 
             toast.success("Movie added successfully ✅");
 
+            // ✅ Reset form
             setForm({
                 title: "",
                 director: "",
@@ -71,11 +78,14 @@ const AddMovie = () => {
                 cast: "",
                 status: "not completed",
             });
+
             setFile(null);
 
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            toast.error("Failed to add movie ❌");
+            toast.error(
+                error.response?.data?.message || "Failed to add movie ❌"
+            );
         }
 
         setLoading(false);
@@ -114,11 +124,12 @@ const AddMovie = () => {
 
                 <input type="file" onChange={handleFileChange} />
 
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                     {loading ? "Adding..." : "Add Movie"}
                 </button>
 
             </form>
+
             <ToastContainer />
         </div>
     );

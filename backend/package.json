@@ -9,6 +9,7 @@
     "start": "nodemon --exec ts-node index.ts"
   },
   "dependencies": {
+    "@types/nodemailer": "^8.0.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "datauri": "^4.1.0",
@@ -26,7 +27,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.1.0",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.5.2",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^6.0.2"
