@@ -95,64 +95,121 @@ export const getMoviesByUser = async (req: Request, res: Response): Promise<void
     }
 };
 
+export const updateMovie = async (req: any, res: Response) => {
+  try {
+    const { movieId } = req.params;
 
-export const updateMovie=async(req:Request,res:Response)=>{
-    try {
+    const movie: any = await Movies.findByPk(movieId);
 
-       const id = req.params.id as string;
-         const movie: any = await Movies.findByPk(id);
-
-        if(!movie){
-            return res.status(404).json({
-                message:"movie not found"
-            })
-        }
-        await movie.update(req.body);
-
-        return res.status(200).json({
-            message:"Movie updated successfully",
-            movie,
-        });
-    } catch (error :any) {
-        return res.status(500).json({
-            message:"Error updating movie",
-            error: error.message
-        });
-        
+    if (!movie) {
+      return res.status(404).json({
+        success: false,
+        message: "Movie not found",
+      });
     }
-}
 
-export const deleteMovie =async(req:Request,res:Response)=>{
-    try {
-        const {id}=req.params;
-        const {userId}=req.body;
+    let moviePic = movie.moviePic;
 
-        if(!userId){
-            return res.status(400).json({
-                message:"userId is required"
-            });
-        }
-        const movie=await Movies.findOne({
-            where:{
-                id:id as string,
-                userId
-            }
-        });
-        
-        if(!movie){
-            return res.status(404).json({
-                message:"Movie not found"
-            });
-        }
-        await movie.destroy();
+    if (req.file) {
+      const uploadResult: any = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "movies" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        stream.end(req.file.buffer);
+      });
 
-        return res.json({
-            message:"Movie deleted successfully"
-        });
-    } catch (error:any) {
-        return res.status(500).json({
-            message:"error deleting movie",
-            error:error.message
-        });
+      moviePic = uploadResult.secure_url;
     }
-}
+
+    await movie.update({
+      title: req.body.title ?? movie.title,
+      director: req.body.director ?? movie.director,
+      genre: req.body.genre ?? movie.genre,
+      releaseYear: req.body.releaseYear
+        ? Number(req.body.releaseYear)
+        : movie.releaseYear,
+      rating: req.body.rating
+        ? Number(req.body.rating)
+        : movie.rating,
+      review: req.body.review ?? movie.review,
+      cast: req.body.cast ?? movie.cast,
+      moviePic,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Movie updated successfully",
+      movie,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Error updating movie",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteMovie = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const movie = await Movies.findOne({
+      where: {
+        id: id as string,
+        userId,
+      },
+    });
+
+    if (!movie) {
+      return res.status(404).json({
+        message: "Movie not found",
+      });
+    }
+
+    await movie.destroy();
+
+    return res.status(200).json({
+      message: "Movie deleted successfully",
+    });
+
+  } catch (error: any) {
+    console.error("DELETE ERROR:", error);
+
+    return res.status(500).json({
+      message: "error deleting movie",
+      error: error.message,
+    });
+  }
+};
+
+export const getMovieById = async (req: Request, res: Response) => {
+  try {
+    const { movieId } = req.params;
+
+    const movie = await Movies.findByPk(movieId as string);
+
+    if (!movie) {
+      return res.status(404).json({
+        success: false,
+        message: "Movie not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      movie,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching movie",
+      error: error.message,
+    });
+  }
+};

@@ -1,0 +1,69 @@
+.movie-card {
+  width: 220px;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  padding: 12px;
+  color: black;
+  position: relative;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
+}
+
+.movie-img {
+  width: 100%;
+  height: 260px;
+  object-fit: fill;
+  border-radius: 10px;
+}
+
+.rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.movie-title {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.movie-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.update-btn {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update-btn:hover,
+.delete-btn:hover {
+  background-color: black;
+  color: white;
+}
