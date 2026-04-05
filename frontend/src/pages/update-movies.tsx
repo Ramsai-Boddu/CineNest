@@ -15,6 +15,8 @@ const UpdateMovie = () => {
     rating: "",
     review: "",
     cast: "",
+    status: "Not Completed",
+    
   });
 
   const [moviePic, setMoviePic] = useState<string | null>(null);
@@ -46,6 +48,7 @@ const UpdateMovie = () => {
           rating: movie?.rating?.toString() ?? "",
           review: movie?.review ?? "",
           cast: movie?.cast ?? "",
+          status: movie?.status ?? "Not Completed",
         });
 
         setMoviePic(movie?.moviePic ?? null);
@@ -59,7 +62,7 @@ const UpdateMovie = () => {
     if (movieId) fetchMovie();
   }, [movieId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -134,6 +137,13 @@ const UpdateMovie = () => {
           <input name="rating" value={form.rating} onChange={handleChange} />
           <input name="cast" value={form.cast} onChange={handleChange} />
           <input name="review" value={form.review} onChange={handleChange} />
+          <select
+           name="status" 
+           value={form.status}
+            onChange={handleChange}>
+            <option value="Not Completed">Not Completed</option>
+            <option value="Completed">Completed</option>
+          </select>
 
           <button type="submit">
             {loading ? "Updating..." : "Update Movie"}

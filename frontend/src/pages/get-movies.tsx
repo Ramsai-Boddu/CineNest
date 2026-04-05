@@ -10,7 +10,6 @@ type Movie = {
   moviePic?: string | null;
   rating: number;
 };
-
 const GetMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const navigate = useNavigate();

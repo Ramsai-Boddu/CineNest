@@ -137,6 +137,7 @@ export const updateMovie = async (req: any, res: Response) => {
         : movie.rating,
       review: req.body.review ?? movie.review,
       cast: req.body.cast ?? movie.cast,
+      status: req.body.status ?? movie.status,
       moviePic,
     });
 
