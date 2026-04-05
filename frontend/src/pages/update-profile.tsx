@@ -92,7 +92,6 @@ const UpdateUser = () => {
         setLoading(false);
     };
 
-    // ✅ LOADING STATE BEFORE DATA COMES
     if (fetchLoading) {
         return <div className="container">Loading user data...</div>;
     }
@@ -103,10 +102,9 @@ const UpdateUser = () => {
 
             <form onSubmit={handleSubmit} className="form">
 
-                {/* Image */}
                 <div className="image-section">
                     <img
-                        src={profilePic || "/default.png"}
+                        src={profilePic || "/noprofile.png"}
                         alt="profile"
                         className="profile-img"
                     />

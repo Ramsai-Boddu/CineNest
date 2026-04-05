@@ -8,6 +8,7 @@ import ForgotPassword from './pages/forgot-password';
 import Getusers from './pages/get-users';
 import UpdateUser from './pages/update-profile';
 import ProtectedRoute from './pages/protectedRoute';
+import AddMovie from './pages/add-movies';
 
 const router = createBrowserRouter([
   {
@@ -61,7 +62,19 @@ const router = createBrowserRouter([
         </>
       </ProtectedRoute>
     )
+  },
+  {
+    path: '/add-movie',
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <AddMovie />
+        </>
+      </ProtectedRoute>
+    )
   }
+
 ]);
 
 function App() {

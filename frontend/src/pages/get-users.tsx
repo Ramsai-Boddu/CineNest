@@ -25,7 +25,7 @@ const Getusers = () => {
     const [users, setUsers] = useState<User[]>([]);
     if (!accessToken) {
         console.error("No access token found. Please log in.");
-        return null; // or redirect to login page
+        return null; 
     }
     const getUsers = async () => {
         try {

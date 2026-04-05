@@ -123,3 +123,40 @@ export const manageActive = async(req:Request, res:Response): Promise<Response> 
     });
   }
 }
+
+export const deleteUser = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const { id } = req.params;
+
+        const user = await User.findByPk(id as string);
+
+        if (!user) {
+            return res.status(404).json({
+                status: false,
+                message: "User not found",
+            });
+        }
+
+        if (user.getDataValue("role") === "super-admin") {
+            return res.status(403).json({
+                status: false,
+                message: "Cannot delete super admin",
+            });
+        }
+
+        await user.destroy();
+
+        return res.status(200).json({
+            status: true,
+            message: "User deleted successfully",
+        });
+
+    } catch (error) {
+        console.error("Delete user error:", error);
+
+        return res.status(500).json({
+            status: false,
+            message: "Internal server error",
+        });
+    }
+};

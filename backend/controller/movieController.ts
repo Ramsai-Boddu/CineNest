@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Movies from "../models/movieModel";
+import cloudinary from "../utils/cloudinary";
 
 export const getMovies = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -20,21 +21,47 @@ export const getMovies = async (req: Request, res: Response): Promise<Response> 
 
 }
 
-export const addMovie = async (req: Request, res: Response): Promise<void> => {
+export const addMovie = async (req: any, res: Response): Promise<void> => {
     try {
+        let moviePic: string | null = null;
+
+        const file = req.file;
+
+        if (file) {
+            const uploadResult: any = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { folder: "movies" },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                stream.end(file.buffer);
+            });
+
+            moviePic = uploadResult.secure_url;
+        }
+
+        // ✅ CREATE MOVIE (FIXED)
         const movie = await Movies.create({
-            ...req.body   // ✅ userId will come from defaultValue
+            ...req.body,
+            releaseYear: Number(req.body.releaseYear), // 🔥 important
+            rating: Number(req.body.rating),           // 🔥 important
+            moviePic,
+            userId: req.user.id, // ✅ REQUIRED FIX
         });
 
         res.status(201).json({
             message: "Movie added successfully ✅",
-            movie
+            movie,
         });
 
     } catch (error: any) {
+        console.error("FULL ERROR:", error); // 🔥 add this for debugging
+
         res.status(500).json({
             message: "Error adding movie ❌",
-            error: error.message
+            error: error.message,
         });
     }
 };
