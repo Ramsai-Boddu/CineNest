@@ -260,10 +260,8 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
 
     const { name, email } = req.body;
 
-    // 🖼️ Existing image
     let profilePic = user.getDataValue("profilePic");
 
-    // 🔥 FIXED FILE HANDLING
     const file = req.file;
 
     if (file) {

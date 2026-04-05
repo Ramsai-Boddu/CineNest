@@ -6,7 +6,12 @@ const Navbar = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const role = localStorage.getItem("role");
-  const url = localStorage.getItem("profilePic") || "/noprofile.png";
+  const profilePic = localStorage.getItem("profilePic");
+
+  const url =
+    profilePic === null || profilePic.trim() === ""
+      ? "/noprofile.png"
+      : profilePic;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +38,10 @@ const Navbar = () => {
         <a href="/">Home</a>
         <a href="/movies">Movies</a>
 
+        {role == "user" && (
+          <a href="/add-movie">Add Movie</a>
+        )}
+
         {role === "admin" && (
           <>
             <a href="/add-user">Add Admin</a>
@@ -46,7 +55,14 @@ const Navbar = () => {
               onClick={() => navigate(`/update/${userId}`)}
               style={{ cursor: "pointer" }}
             >
-              <img src={url} alt="Profile" className='navimg' />
+              <img
+                src={url}
+                alt="Profile"
+                className='navimg'
+                onError={(e) => {
+                  e.currentTarget.src = "/noprofile.png";
+                }}
+              />
             </div>
             &nbsp;
             &nbsp;

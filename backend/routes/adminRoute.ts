@@ -7,7 +7,7 @@ import { authMiddleware } from '../middleware/authMid';
 const router = express.Router();
 
 router.post('/login', login);
-router.post("/add-movie",  addMovie);
+router.post("/add-movie",authMiddleware,singleUpload,addMovie);
 router.get("/get-movie/:userId", getMoviesByUser);
 router.put('/update-movie/:id',updateMovie)
 router.delete("/delete-movie/:id",deleteMovie);
