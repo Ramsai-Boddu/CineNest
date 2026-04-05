@@ -26,12 +26,13 @@ table {
 }
 
 /* ✅ BALANCED WIDTHS (TOTAL = 100%) */
-th:nth-child(1) { width: 15%; }  /* Name */
-th:nth-child(2) { width: 25%; }  /* Email */
+th:nth-child(1) { width: 10%; }  /* Name */
+th:nth-child(2) { width: 20%; }  /* Email */
 th:nth-child(3) { width: 20%; }  /* Password */
 th:nth-child(4) { width: 10%; }  /* Logged In */
 th:nth-child(5) { width: 15%; }  /* Active */
 th:nth-child(6) { width: 15%; }  /* Update */
+th:nth-child(7) { width: 10%; }  /* Delete */
 
 th {
   background: #f1f3f5;
@@ -86,7 +87,9 @@ td:nth-child(6) {
 /* ✅ BUTTON BASE */
 .activate-btn,
 .deactivate-btn,
-.update-btn {
+.update-btn,
+.delete-btn
+ {
   width: 100px;
   height: 36px;
   font-size: 14px;
@@ -127,4 +130,13 @@ td:nth-child(6) {
 
 .update-btn:hover {
   background: #0056b3;
+}
+
+.delete-btn {
+  background: #ee4343;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #df99a0;
 }

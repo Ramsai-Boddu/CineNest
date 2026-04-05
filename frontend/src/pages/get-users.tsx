@@ -1,8 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
 import './css/get-users.css'
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Getusers = () => {
+    const navigate = useNavigate();
     type User = {
         id: string;
         name: string;
@@ -54,7 +57,6 @@ const Getusers = () => {
                 }
             );
 
-            // 🔥 Update UI instantly (no reload)
             setUsers((prev) =>
                 prev.map((user) =>
                     user.id === userId
@@ -67,6 +69,38 @@ const Getusers = () => {
             console.error("Error updating user status:", err);
         }
     };
+
+    const handleUpdate = (user: User) => {
+        navigate(`/update/${user.id}`);
+    };
+
+    const handleDelete = async (user: User) => {
+        const confirmDelete = window.confirm(`Delete ${user.name}?`);
+
+        if (!confirmDelete) return;
+
+        try {
+            const token = localStorage.getItem("accessToken");
+
+            await axios.delete(
+                `http://localhost:3000/super-admin/delete-user/${user.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            setUsers((prev) => prev.filter((u) => u.id !== user.id));
+
+            toast.success("User deleted successfully ✅");
+
+        } catch (err) {
+            console.error("Delete error:", err);
+            toast.error("Failed to delete user ❌");
+        }
+    };
+
     return (
         <div className="user-container">
             <div className="users-table">
@@ -80,54 +114,66 @@ const Getusers = () => {
                             <th>Logged In</th>
                             <th>Active</th>
                             <th>Update</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
+                        {users
+                            .filter((user) => user.role === "user")
+                            .map((user) => (
+                                <tr key={user.id}>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
 
-                                <td>
-                                    <div className="password-cell">
-                                        {user.password || "N/A"}
-                                    </div>
-                                </td>
+                                    <td>
+                                        <div className="password-cell">
+                                            {user.password || "N/A"}
+                                        </div>
+                                    </td>
 
-                                <td>{user.isLoggedIn ? "Yes" : "No"}</td>
+                                    <td>{user.isLoggedIn ? "Yes" : "No"}</td>
 
-                                <td>
-                                    {user.isActive ? (
+                                    <td>
+                                        {user.isActive ? (
+                                            <button
+                                                className="deactivate-btn"
+                                                onClick={() => toggleActive(user.id)}
+                                            >
+                                                Deactivate
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="activate-btn"
+                                                onClick={() => toggleActive(user.id)}
+                                            >
+                                                Activate
+                                            </button>
+                                        )}
+                                    </td>
+
+                                    <td>
                                         <button
-                                            className="deactivate-btn"
-                                            onClick={() => toggleActive(user.id)}
+                                            className="update-btn"
+                                            onClick={() => handleUpdate(user)}
                                         >
-                                            Deactivate
+                                            Update
                                         </button>
-                                    ) : (
+                                    </td>
+                                    <td>
                                         <button
-                                            className="activate-btn"
-                                            onClick={() => toggleActive(user.id)}
+                                            className="delete-btn"
+                                            onClick={() => handleDelete(user)}
                                         >
-                                            Activate
+                                            Delete
                                         </button>
-                                    )}
-                                </td>
-
-                                <td>
-                                    <button
-                                        className="update-btn"
-                                        onClick={() => handleUpdate(user)}
-                                    >
-                                        Update
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>
+            <ToastContainer />
         </div>
     )
 }
