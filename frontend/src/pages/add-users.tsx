@@ -34,11 +34,11 @@ const AddUsers = () => {
             );
 
             console.log("User added successfully:", res.data);
-            toast.success("User added successfully!");
+            toast.success(res.data?.message || "User added successfully" );
             setFormData({ name: "", email: "" });
 
         } catch (error: any) {
-            console.error("ERROR:", error.response?.data || error.message);
+            toast.error(error.response?.data?.message || error.message);
         }
     };
     return (

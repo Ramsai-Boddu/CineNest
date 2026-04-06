@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import "./css/add-movie.css";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddMovie = () => {
     const [form, setForm] = useState({
@@ -88,9 +89,14 @@ const AddMovie = () => {
 
         setLoading(false);
     };
-
+const navigate = useNavigate();
     return (
+        <div>
+            <button className="back-btn" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
         <div className="movie-container">
+            
             <h2>Add Movie 🎬</h2>
 
             <form onSubmit={handleSubmit} className="movie-form">
@@ -129,6 +135,7 @@ const AddMovie = () => {
             </form>
 
             <ToastContainer />
+        </div>
         </div>
     );
 };

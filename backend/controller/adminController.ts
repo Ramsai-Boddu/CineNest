@@ -265,6 +265,15 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
 
     const { name, email } = req.body;
 
+    const existUser = await User.findOne({ where: { email } }) as any;
+
+    if (existUser && existUser.id !== loggedInUser.id) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already in use",
+      });
+    }
+
     let profilePic = user.getDataValue("profilePic");
 
     const file = req.file;
@@ -279,13 +288,11 @@ export const updateUser = async (req: AuthRequest, res: Response) => {
           }
         );
 
-        stream.end(file.buffer); // ✅ NO ERROR
+        stream.end(file.buffer); 
       });
 
       profilePic = uploadResult.secure_url;
     }
-
-    // ✏️ Update user
     await user.update({
       name: name ?? user.getDataValue("name"),
       email: email ?? user.getDataValue("email"),

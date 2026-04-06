@@ -12,7 +12,7 @@ export const authMiddleware = (req: AuthRequest,res: Response,next: NextFunction
 
   try {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string);
-    console.log("DECODED TOKEN:", decoded); 
+    // console.log("DECODED TOKEN:", decoded); 
     req.user = decoded;
     next();
   } catch (error) {

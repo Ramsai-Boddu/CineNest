@@ -45,7 +45,7 @@
     color: black;
     width: 30%;
     margin-top: 20px;
-    margin-left: 150px;
+    margin-left: 170px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -55,4 +55,21 @@
     background-color: black;
     color: white;
     cursor: pointer;
+}
+
+.back-btn {
+    width: 80px;
+  align-self: flex-start;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 300px;
+}
+
+.back-btn:hover {
+  background-color: #333;
 }

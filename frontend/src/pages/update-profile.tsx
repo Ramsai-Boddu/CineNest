@@ -54,7 +54,6 @@ const UpdateUser = () => {
         }
     };
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -70,7 +69,7 @@ const UpdateUser = () => {
                 formData.append("file", file);
             }
 
-            await axios.put(
+            const res = await axios.put(
                 `http://localhost:3000/admin/update-user/${userId}`,
                 formData,
                 {
@@ -80,11 +79,16 @@ const UpdateUser = () => {
                     },
                 }
             );
+            const message = res.data?.message || res.data?.data?.message;
+            console.log(message);
             localStorage.setItem("profilePic", profilePic || "/noprofile.png");
-            toast.success("Updated successfully ✅");
-        } catch (err) {
-            console.error(err);
-            toast.error("Update failed ❌");
+            toast.success(message || "User updated successfully! ✅");
+        } catch (err: any) {
+            const errorMessage =
+                err.response?.data?.message ||
+                err.response?.data?.error ||
+                "Something went wrong ❌";
+            toast.error(errorMessage);
         }
 
         setLoading(false);
@@ -110,7 +114,7 @@ const UpdateUser = () => {
                     <input type="file" onChange={handleFileChange} />
                 </div>
 
-                
+
                 <input
                     type="text"
                     placeholder="Enter name"
@@ -118,7 +122,7 @@ const UpdateUser = () => {
                     onChange={(e) => setName(e.target.value)}
                 />
 
-               
+
                 <input
                     type="email"
                     placeholder="Enter email"
@@ -126,7 +130,7 @@ const UpdateUser = () => {
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-               
+
                 <button type="submit">
                     {loading ? "Updating..." : "Update"}
                 </button>

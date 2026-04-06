@@ -15,6 +15,7 @@ import UpdateMovie from './pages/update-movies';
 import GetSuperMovies from './pages/super-movies';
 import MovieDetails from './pages/movie-details'; 
 import { ToastContainer } from 'react-toastify';
+import SuperUpdate from './pages/super-update';
 
 const router = createBrowserRouter([
   {
@@ -123,6 +124,17 @@ const router = createBrowserRouter([
         <>
           <Navbar />
           <GetSuperMovies />
+        </>
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/update-super/:userId',
+    element: (
+      <ProtectedRoute adminOnly={true}>
+        <>
+          <Navbar />
+          <SuperUpdate />
         </>
       </ProtectedRoute>
     )

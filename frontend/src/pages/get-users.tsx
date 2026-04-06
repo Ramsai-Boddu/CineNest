@@ -71,7 +71,7 @@ const Getusers = () => {
     };
 
     const handleUpdate = (user: User) => {
-        navigate(`/update/${user.id}`);
+        navigate(`/update-super/${user.id}`);
     };
 
     const handleDelete = async (user: User) => {

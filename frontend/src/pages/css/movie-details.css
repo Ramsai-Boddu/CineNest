@@ -12,6 +12,7 @@ body {
 }
 
 .back-btn {
+    width: 80px;
   align-self: flex-start;
   margin-bottom: 20px;
   padding: 8px 14px;
