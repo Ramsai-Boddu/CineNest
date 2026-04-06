@@ -41,7 +41,6 @@ export const addMovie = async (req: any, res: Response): Promise<void> => {
       moviePic = uploadResult.secure_url;
     }
 
-    // ✅ ADD STATUS HERE
     const movie = await Movies.create({
       ...req.body,
       releaseYear: Number(req.body.releaseYear),
@@ -124,7 +123,6 @@ export const updateMovie = async (req: any, res: Response) => {
       moviePic = uploadResult.secure_url;
     }
 
-    // 🔥 IMPORTANT FIX (STATUS ADDED)
     await movie.update({
       title: req.body.title ?? movie.title,
       director: req.body.director ?? movie.director,

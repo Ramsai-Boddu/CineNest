@@ -12,7 +12,6 @@ const Login = () => {
     password: "",
   });
 
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
@@ -41,11 +40,10 @@ const Login = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setError("");
 
     const validationError = validate();
     if (validationError) {
-      setError(validationError);
+      toast.error(validationError);
       return;
     }
 

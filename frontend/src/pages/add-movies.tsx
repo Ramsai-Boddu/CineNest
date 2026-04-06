@@ -20,7 +20,6 @@ const AddMovie = () => {
 
     const token = localStorage.getItem("accessToken");
 
-    // ✅ FIX: clean handler
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
             ...form,
@@ -49,7 +48,6 @@ const AddMovie = () => {
                 formData.append("file", file);
             }
 
-            // 🔥 DEBUG (optional)
             console.log("Submitting...");
             for (let pair of formData.entries()) {
                 console.log(pair[0], pair[1]);
@@ -67,7 +65,7 @@ const AddMovie = () => {
 
             toast.success("Movie added successfully ✅");
 
-            // ✅ Reset form
+            
             setForm({
                 title: "",
                 director: "",

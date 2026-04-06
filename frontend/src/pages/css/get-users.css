@@ -25,14 +25,13 @@ table {
   table-layout: fixed;
 }
 
-/* ✅ BALANCED WIDTHS (TOTAL = 100%) */
-th:nth-child(1) { width: 10%; }  /* Name */
-th:nth-child(2) { width: 20%; }  /* Email */
-th:nth-child(3) { width: 20%; }  /* Password */
-th:nth-child(4) { width: 10%; }  /* Logged In */
-th:nth-child(5) { width: 15%; }  /* Active */
-th:nth-child(6) { width: 15%; }  /* Update */
-th:nth-child(7) { width: 10%; }  /* Delete */
+th:nth-child(1) { width: 10%; } 
+th:nth-child(2) { width: 20%; }  
+th:nth-child(3) { width: 20%; } 
+th:nth-child(4) { width: 10%; }  
+th:nth-child(5) { width: 15%; }  
+th:nth-child(6) { width: 15%; }
+th:nth-child(7) { width: 10%; }  
 
 th {
   background: #f1f3f5;
@@ -45,15 +44,13 @@ th {
 td {
   padding: 14px;
   border-bottom: 1px solid #eee;
-  vertical-align: middle; /* 🔥 critical */
+  vertical-align: middle; 
 }
 
-/* Hover */
 tr:hover {
   background: #f9f9f9;
 }
 
-/* ✅ CENTER ONLY REQUIRED COLUMNS */
 th:nth-child(4),
 td:nth-child(4),
 th:nth-child(5),
@@ -63,7 +60,6 @@ td:nth-child(6) {
   text-align: center;
 }
 
-/* PASSWORD BOX */
 .password-cell {
   max-width: 180px;
   overflow-x: auto;
@@ -74,7 +70,6 @@ td:nth-child(6) {
   font-size: 13px;
 }
 
-/* Scrollbar */
 .password-cell::-webkit-scrollbar {
   height: 5px;
 }
@@ -84,7 +79,6 @@ td:nth-child(6) {
   border-radius: 10px;
 }
 
-/* ✅ BUTTON BASE */
 .activate-btn,
 .deactivate-btn,
 .update-btn,
@@ -101,10 +95,9 @@ td:nth-child(6) {
   justify-content: center;
   align-items: center;
 
-  margin: auto; /* 🔥 THIS centers inside column */
+  margin: auto; 
 }
 
-/* COLORS */
 .activate-btn {
   background: #28a745;
   color: white;

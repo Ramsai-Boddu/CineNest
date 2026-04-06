@@ -1,6 +1,5 @@
-// models/User.js
 import { DataTypes } from "sequelize";
-import sequelize from "../database/config"; // adjust path if needed
+import sequelize from "../database/config"; 
 
 const User = sequelize.define(
   "User",
@@ -67,7 +66,7 @@ const User = sequelize.define(
   },
   {
     tableName: "users",
-    timestamps: true, // because you're manually handling createdAt
+    timestamps: true, 
   }
 );
 

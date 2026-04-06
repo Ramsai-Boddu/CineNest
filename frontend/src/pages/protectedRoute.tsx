@@ -9,8 +9,13 @@ const ProtectedRoute = ({ children, adminOnly = false }: any) => {
 
   useEffect(() => {
     if (!token) {
-      toast.error("Please login to access this page");
+      
+      
+      
+      setTimeout(() => {
+        toast.error("Please login to access this page");
       navigate("/login", { replace: true });
+      }, 2000);
     } else if (adminOnly && role !== "admin") {
       toast.error("You are not authorized to access this page");
       navigate("/", { replace: true });

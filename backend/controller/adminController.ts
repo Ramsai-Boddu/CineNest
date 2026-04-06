@@ -26,6 +26,13 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
       });
     }
 
+    if(user.isActive === false) {
+      return res.status(403).json({
+        status: false,
+        message: "Account is deactivated. Please contact support.",
+      });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password)
 
     if (!isPasswordValid) {
@@ -62,7 +69,6 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
   try {
     const { email } = req.body;
 
-    // 1. Validate email
     if (!email) {
       return res.status(400).json({
         status: false,
@@ -148,7 +154,6 @@ export const resetPassword = async (req: Request, res: Response): Promise<Respon
       });
     }
 
-    // 7. Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     user.password = hashedPassword;

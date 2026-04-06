@@ -3,7 +3,7 @@ import './css/admin-home.css';
 const Adminhome = () => {
   return (
     <div className='home-main'>
-      {/* <h2>Welcome Username</h2> */}
+      
       <div className='home-content'>
 
         <img src="/logo2.png" alt="Admin Dashboard" className='home-img' />

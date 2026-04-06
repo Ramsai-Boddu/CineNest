@@ -14,7 +14,6 @@ const UpdateUser = () => {
     const [loading, setLoading] = useState(false);
     const [fetchLoading, setFetchLoading] = useState(true);
 
-    // ✅ FETCH EXISTING USER DATA
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -47,7 +46,6 @@ const UpdateUser = () => {
         }
     }, [userId]);
 
-    // handle file change
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selected = e.target.files?.[0];
         if (selected) {
@@ -56,7 +54,7 @@ const UpdateUser = () => {
         }
     };
 
-    // submit
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -112,7 +110,7 @@ const UpdateUser = () => {
                     <input type="file" onChange={handleFileChange} />
                 </div>
 
-                {/* Name */}
+                
                 <input
                     type="text"
                     placeholder="Enter name"
@@ -120,7 +118,7 @@ const UpdateUser = () => {
                     onChange={(e) => setName(e.target.value)}
                 />
 
-                {/* Email */}
+               
                 <input
                     type="email"
                     placeholder="Enter email"
@@ -128,7 +126,7 @@ const UpdateUser = () => {
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-                {/* Button */}
+               
                 <button type="submit">
                     {loading ? "Updating..." : "Update"}
                 </button>

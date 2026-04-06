@@ -23,7 +23,7 @@ const GetMovies = () => {
   const token = localStorage.getItem("accessToken");
   const userId = localStorage.getItem("userId");
 
-  // ✅ FETCH MOVIES
+ 
   const getMovies = async () => {
     try {
       const res = await axios.get(
@@ -35,7 +35,7 @@ const GetMovies = () => {
         }
       );
 
-      // ✅ SAFE ARRAY (prevents map error)
+      
       const moviesData = Array.isArray(res.data?.movies)
         ? res.data.movies
         : [];
@@ -51,7 +51,7 @@ const GetMovies = () => {
     getMovies();
   }, []);
 
-  // ✅ DELETE
+  
   const handleDelete = async (id: string) => {
     if (!window.confirm("Delete this movie?")) return;
 
@@ -71,23 +71,23 @@ const GetMovies = () => {
     }
   };
 
-  // ✅ UPDATE PAGE
+  
   const handleUpdate = (id: string) => {
     navigate(`/update-movie/${id}`);
   };
 
-  // ✅ VIEW DETAILS PAGE (CARD CLICK)
+  
   const handleView = (id: string) => {
     navigate(`/movie/${id}`);
   };
 
-  // ✅ GENRES
+ 
   const genres = ["All", ...new Set(movies.map((m) => m.genre))];
 
-  // ✅ RATINGS
+ 
   const ratings = ["All", "9", "8", "7", "6", "5", "4", "3", "2", "1"];
 
-  // ✅ FILTER LOGIC
+  
   const filteredMovies = movies.filter((movie) => {
     const matchesGenre =
       selectedGenre === "All" || movie.genre === selectedGenre;
@@ -107,11 +107,11 @@ const GetMovies = () => {
     <div className="movies-container">
       <h2>My Movies 🎬</h2>
 
-      {/* 🔥 FILTER + SEARCH */}
+      
       <div className="top-bar">
 
         <div className="filter-bar">
-          {/* GENRE */}
+          
           <select
             value={selectedGenre}
             onChange={(e) => setSelectedGenre(e.target.value)}
@@ -123,7 +123,7 @@ const GetMovies = () => {
             ))}
           </select>
 
-          {/* RATING */}
+         
           <select
             value={selectedRating}
             onChange={(e) => setSelectedRating(e.target.value)}
@@ -136,7 +136,7 @@ const GetMovies = () => {
           </select>
         </div>
 
-        {/* SEARCH */}
+        
         <div className="search-bar">
           <input
             type="text"
@@ -147,15 +147,15 @@ const GetMovies = () => {
         </div>
       </div>
 
-      {/* 🎬 MOVIES GRID */}
+     
       <div className="movies-grid">
         {filteredMovies.length > 0 ? (
           filteredMovies.map((movie) => (
             <MovieCard
               key={movie.id}
               movie={movie}
-                    // ✅ card click → details
-              onUpdate={handleUpdate}   // ✅ update button
+                    
+              onUpdate={handleUpdate}   
               onDelete={handleDelete}
               onView={handleView} 
             />

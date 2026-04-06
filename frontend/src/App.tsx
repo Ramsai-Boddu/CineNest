@@ -14,6 +14,7 @@ import GetMovies from './pages/get-movies';
 import UpdateMovie from './pages/update-movies';
 import GetSuperMovies from './pages/super-movies';
 import MovieDetails from './pages/movie-details'; 
+import { ToastContainer } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
     )
   },
 
-  // 🎬 MOVIE DETAILS ROUTE (MAIN FEATURE)
+ 
   {
     path: '/movie/:id',
     element: (
@@ -129,7 +130,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return(
+    <>
+    <RouterProvider router={router} />;
+    <ToastContainer />
+    </>
+  ) 
 }
 
 export default App;
