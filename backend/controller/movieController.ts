@@ -18,54 +18,53 @@ export const getMovies = async (req: Request, res: Response): Promise<Response> 
       status: false,
     });
   }
-
-}
-
-export const addMovie = async (req: any, res: Response): Promise<void> => {
-    try {
-        let moviePic: string | null = null;
-
-        const file = req.file;
-
-        if (file) {
-            const uploadResult: any = await new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream(
-                    { folder: "movies" },
-                    (error, result) => {
-                        if (error) reject(error);
-                        else resolve(result);
-                    }
-                );
-                stream.end(file.buffer);
-            });
-
-            moviePic = uploadResult.secure_url;
-        }
-
-        // ✅ CREATE MOVIE (FIXED)
-        const movie = await Movies.create({
-            ...req.body,
-            releaseYear: Number(req.body.releaseYear), // 🔥 important
-            rating: Number(req.body.rating),           // 🔥 important
-            moviePic,
-            userId: req.user.id, // ✅ REQUIRED FIX
-        });
-
-        res.status(201).json({
-            message: "Movie added successfully ✅",
-            movie,
-        });
-
-    } catch (error: any) {
-        console.error("FULL ERROR:", error); // 🔥 add this for debugging
-
-        res.status(500).json({
-            message: "Error adding movie ❌",
-            error: error.message,
-        });
-    }
 };
 
+export const addMovie = async (req: any, res: Response): Promise<void> => {
+  try {
+    let moviePic: string | null = null;
+
+    const file = req.file;
+
+    if (file) {
+      const uploadResult: any = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "movies" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+        stream.end(file.buffer);
+      });
+
+      moviePic = uploadResult.secure_url;
+    }
+
+    // ✅ ADD STATUS HERE
+    const movie = await Movies.create({
+      ...req.body,
+      releaseYear: Number(req.body.releaseYear),
+      rating: Number(req.body.rating),
+      status: req.body.status || "not completed", // ✅ FIX
+      moviePic,
+      userId: req.user.id,
+    });
+
+    res.status(201).json({
+      message: "Movie added successfully ✅",
+      movie,
+    });
+
+  } catch (error: any) {
+    console.error("FULL ERROR:", error);
+
+    res.status(500).json({
+      message: "Error adding movie ❌",
+      error: error.message,
+    });
+  }
+};
 export const getMoviesByUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const userId = req.params.userId as string;
@@ -125,6 +124,7 @@ export const updateMovie = async (req: any, res: Response) => {
       moviePic = uploadResult.secure_url;
     }
 
+    // 🔥 IMPORTANT FIX (STATUS ADDED)
     await movie.update({
       title: req.body.title ?? movie.title,
       director: req.body.director ?? movie.director,
@@ -146,6 +146,7 @@ export const updateMovie = async (req: any, res: Response) => {
       message: "Movie updated successfully",
       movie,
     });
+
   } catch (error: any) {
     return res.status(500).json({
       success: false,
@@ -206,6 +207,7 @@ export const getMovieById = async (req: Request, res: Response) => {
       success: true,
       movie,
     });
+
   } catch (error: any) {
     return res.status(500).json({
       success: false,

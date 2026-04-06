@@ -145,6 +145,16 @@ const UpdateMovie = () => {
             <option value="Completed">Completed</option>
           </select>
 
+          {/* ✅ STATUS DROPDOWN ADDED */}
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+          >
+            <option value="not completed">⏳ Not Completed</option>
+            <option value="completed">✅ Completed</option>
+          </select>
+
           <button type="submit">
             {loading ? "Updating..." : "Update Movie"}
           </button>

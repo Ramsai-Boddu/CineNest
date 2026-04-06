@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.css'
+import './App.css';
+
 import Adminhome from './pages/admin-home';
 import Login from './pages/login';
 import Navbar from './pages/navbar';
@@ -12,6 +13,7 @@ import AddMovie from './pages/add-movies';
 import GetMovies from './pages/get-movies';
 import UpdateMovie from './pages/update-movies';
 import GetSuperMovies from './pages/super-movies';
+import MovieDetails from './pages/movie-details'; 
 
 const router = createBrowserRouter([
   {
@@ -88,6 +90,20 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     )
   },
+
+  // 🎬 MOVIE DETAILS ROUTE (MAIN FEATURE)
+  {
+    path: '/movie/:id',
+    element: (
+      <ProtectedRoute>
+        <>
+          <Navbar />
+          <MovieDetails />
+        </>
+      </ProtectedRoute>
+    )
+  },
+
   {
     path: '/update-movie/:movieId',
     element: (
@@ -110,16 +126,10 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     )
   }
-
 ]);
 
 function App() {
-
-  return (
-    <>
-      <RouterProvider router={router} /> 
-    </>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

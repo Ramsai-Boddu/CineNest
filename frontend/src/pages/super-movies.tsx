@@ -7,6 +7,7 @@ import "./css/get-movies.css";
 type Movie = {
   id: string;
   title: string;
+  genre: string;
   moviePic?: string | null;
   rating: number;
 };
@@ -15,6 +16,28 @@ const GetSuperMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const navigate = useNavigate();
   const token = localStorage.getItem("accessToken");
+
+  const [selectedGenre, setSelectedGenre] = useState<string>("All");
+  const [selectedRating, setSelectedRating] = useState<string>("All");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const genres = ["All", ...new Set(movies.map((m) => m.genre))];
+  const ratings = ["All", "9", "8", "7", "6", "5", "4", "3", "2", "1"];
+
+  const filteredMovies = movies.filter((movie) => {
+    const matchesGenre =
+      selectedGenre === "All" || movie.genre === selectedGenre;
+
+    const matchesRating =
+      selectedRating === "All" ||
+      Math.floor(movie.rating) === Number(selectedRating);
+
+    const matchesSearch = movie.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesGenre && matchesRating && matchesSearch;
+  });
 
   const getMovies = async () => {
     try {
@@ -26,8 +49,6 @@ const GetSuperMovies = () => {
           },
         }
       );
-
-      console.log("API RESPONSE:", res.data);
 
       setMovies(res.data.data || []);
     } catch (err) {
@@ -41,8 +62,7 @@ const GetSuperMovies = () => {
   }, []);
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm("Delete this movie?");
-    if (!confirmDelete) return;
+    if (!window.confirm("Delete this movie?")) return;
 
     try {
       await axios.delete(
@@ -64,16 +84,56 @@ const GetSuperMovies = () => {
     navigate(`/update-movie/${id}`);
   };
 
+  const handleView = (id: string) => {
+    navigate(`/movie/${id}`);
+  };
+
   return (
     <div className="movies-container">
       <h2>My Movies 🎬</h2>
 
+      <div className="top-bar">
+        <div className="filter-bar">
+          <select
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+          >
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedRating}
+            onChange={(e) => setSelectedRating(e.target.value)}
+          >
+            {ratings.map((rating) => (
+              <option key={rating} value={rating}>
+                {rating === "All" ? "All Ratings" : `${rating}+ ⭐`}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search movie..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+
       <div className="movies-grid">
-        {movies?.length > 0 ? (
-          movies.map((movie) => (
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
             <MovieCard
               key={movie.id}
               movie={movie}
+              onView={handleView}
               onUpdate={handleUpdate}
               onDelete={handleDelete}
             />
