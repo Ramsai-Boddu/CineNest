@@ -25,13 +25,15 @@ input {
 }
 
 button {
+  width: 40%;
   padding: 10px;
   background: #4CAF50;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 120px;
+  margin-left: 110px;
+  margin-top: 15px;
 }
 
 button:hover {
