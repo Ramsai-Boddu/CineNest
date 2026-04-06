@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import MovieCard from "../components/movie-card.tsx";
+import MovieCard from "../components/movie-card";
 import { useNavigate } from "react-router-dom";
 import "./css/get-movies.css";
 
 type Movie = {
   id: string;
   title: string;
+  genre: string;
   moviePic?: string | null;
   rating: number;
 };
 
 const GetMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string>("All");
+  const [selectedRating, setSelectedRating] = useState<string>("All");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
   const userId = localStorage.getItem("userId");
 
-  // ✅ Fetch movies
+  // ✅ FETCH MOVIES
   const getMovies = async () => {
     try {
       const res = await axios.get(
@@ -30,9 +35,15 @@ const GetMovies = () => {
         }
       );
 
-      setMovies(res.data.movies); // adjust if needed
+      // ✅ SAFE ARRAY (prevents map error)
+      const moviesData = Array.isArray(res.data?.movies)
+        ? res.data.movies
+        : [];
+
+      setMovies(moviesData);
     } catch (err) {
       console.error("Error fetching movies:", err);
+      setMovies([]);
     }
   };
 
@@ -40,10 +51,9 @@ const GetMovies = () => {
     getMovies();
   }, []);
 
-  // ✅ Delete movie
+  // ✅ DELETE
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm("Delete this movie?");
-    if (!confirmDelete) return;
+    if (!window.confirm("Delete this movie?")) return;
 
     try {
       await axios.delete(
@@ -55,31 +65,99 @@ const GetMovies = () => {
         }
       );
 
-      // update UI
       setMovies((prev) => prev.filter((m) => m.id !== id));
-
     } catch (err) {
       console.error("Delete error:", err);
     }
   };
 
-  // ✅ Update movie
+  // ✅ UPDATE PAGE
   const handleUpdate = (id: string) => {
     navigate(`/update-movie/${id}`);
   };
+
+  // ✅ VIEW DETAILS PAGE (CARD CLICK)
+  const handleView = (id: string) => {
+    navigate(`/movie/${id}`);
+  };
+
+  // ✅ GENRES
+  const genres = ["All", ...new Set(movies.map((m) => m.genre))];
+
+  // ✅ RATINGS
+  const ratings = ["All", "9", "8", "7", "6", "5", "4", "3", "2", "1"];
+
+  // ✅ FILTER LOGIC
+  const filteredMovies = movies.filter((movie) => {
+    const matchesGenre =
+      selectedGenre === "All" || movie.genre === selectedGenre;
+
+    const matchesRating =
+      selectedRating === "All" ||
+      Math.floor(movie.rating) === Number(selectedRating);
+
+    const matchesSearch = movie.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesGenre && matchesRating && matchesSearch;
+  });
 
   return (
     <div className="movies-container">
       <h2>My Movies 🎬</h2>
 
+      {/* 🔥 FILTER + SEARCH */}
+      <div className="top-bar">
+
+        <div className="filter-bar">
+          {/* GENRE */}
+          <select
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+          >
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+
+          {/* RATING */}
+          <select
+            value={selectedRating}
+            onChange={(e) => setSelectedRating(e.target.value)}
+          >
+            {ratings.map((rating) => (
+              <option key={rating} value={rating}>
+                {rating === "All" ? "All Ratings" : `${rating}+ ⭐`}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* SEARCH */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search movie..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* 🎬 MOVIES GRID */}
       <div className="movies-grid">
-        {movies.length > 0 ? (
-          movies.map((movie) => (
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
             <MovieCard
               key={movie.id}
               movie={movie}
-              onUpdate={handleUpdate}
+                    // ✅ card click → details
+              onUpdate={handleUpdate}   // ✅ update button
               onDelete={handleDelete}
+              onView={handleView} 
             />
           ))
         ) : (

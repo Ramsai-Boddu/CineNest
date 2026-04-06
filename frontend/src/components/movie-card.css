@@ -1,69 +1,87 @@
 .movie-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
   width: 220px;
-  background: white;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  padding: 12px;
-  color: black;
-  position: relative;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  cursor: pointer;
 }
 
 .movie-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-6px);
+}
+
+.image-wrapper {
+  position: relative;
 }
 
 .movie-img {
   width: 100%;
   height: 260px;
-  object-fit: fill;
-  border-radius: 10px;
+  object-fit: cover;
 }
 
 .rating-badge {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: black;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: bold;
+  background: #000;
+  color: #ffd700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.movie-content {
+  padding: 10px;
+  text-align: center;
 }
 
 .movie-title {
-  text-align: center;
-  margin: 10px 0;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.movie-genre {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 10px;
 }
 
 .movie-actions {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
 }
 
 .update-btn {
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  border-radius: 5px;
+  flex: 1;
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 13px;
+}
+
+.update-btn:hover {
+  background: #2980b9;
 }
 
 .delete-btn {
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  border-radius: 5px;
+  flex: 1;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 13px;
 }
 
-.update-btn:hover,
 .delete-btn:hover {
-  background-color: black;
-  color: white;
+  background: #c0392b;
 }

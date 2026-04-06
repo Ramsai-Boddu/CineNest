@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import Movies from "../models/movieModel";
 import User from "../models/userModel";
 
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
