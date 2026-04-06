@@ -147,3 +147,34 @@ export const deleteUser = async (req: Request, res: Response): Promise<Response>
         });
     }
 };
+
+export const deleteMovie = async (req: any, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const movie = await Movies.findOne({
+      where: {
+        id: id as string      },
+    });
+
+    if (!movie) {
+      return res.status(404).json({
+        message: "Movie not found",
+      });
+    }
+
+    await movie.destroy();
+
+    return res.status(200).json({
+      message: "Movie deleted successfully",
+    });
+
+  } catch (error: any) {
+    console.error("DELETE ERROR:", error);
+
+    return res.status(500).json({
+      message: "error deleting movie",
+      error: error.message,
+    });
+  }
+};

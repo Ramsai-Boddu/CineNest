@@ -39,6 +39,10 @@ const GetSuperMovies = () => {
     return matchesGenre && matchesRating && matchesSearch;
   });
 
+  const role = localStorage.getItem("role") || "";
+
+
+
   const getMovies = async () => {
     try {
       const res = await axios.get(
@@ -61,12 +65,16 @@ const GetSuperMovies = () => {
     getMovies();
   }, []);
 
+  const url = role === "admin"
+    ? "http://localhost:3000/super-admin/delete-movie"
+    : "http://localhost:3000/admin/delete-movie";
+
   const handleDelete = async (id: string) => {
     if (!window.confirm("Delete this movie?")) return;
 
     try {
       await axios.delete(
-        `http://localhost:3000/admin/delete-movie/${id}`,
+        `${url}/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
