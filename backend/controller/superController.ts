@@ -38,7 +38,7 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
   }
 };
 
-export const getUsers = async (req: Request, res: Response): Promise<Response> => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.findAll();
 
@@ -134,13 +134,6 @@ export const deleteUser = async (req: Request, res: Response): Promise<Response>
             return res.status(404).json({
                 status: false,
                 message: "User not found",
-            });
-        }
-
-        if (user.getDataValue("role") === "super-admin") {
-            return res.status(403).json({
-                status: false,
-                message: "Cannot delete super admin",
             });
         }
 

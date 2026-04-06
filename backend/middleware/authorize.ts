@@ -2,12 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import {AuthRequest}  from "./authRequest";
 
 
-export const isAdmin = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  console.log("USER IN isAdmin:", req.user); // 👈 debug
+export const isAdmin = ( req: AuthRequest, res: Response, next: NextFunction) => {
+  console.log("USER IN isAdmin:", req.user);
 
   if (req.user?.role?.toLowerCase() === "admin") {
     return next();

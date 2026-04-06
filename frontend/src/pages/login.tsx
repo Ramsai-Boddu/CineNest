@@ -2,9 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import "./css/login.css";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,8 +15,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Handle input change
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -38,7 +39,7 @@ const Login = () => {
     return null;
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setError("");
 
@@ -56,19 +57,14 @@ const Login = () => {
         formData
       );
 
-      console.log("Login success:", res.data);
-
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("userId", res.data.data.id);
       localStorage.setItem("role", res.data.data.role);
       localStorage.setItem("profilePic", res.data.data.profilePic);
-      navigate("/",{ replace: true });
 
-    } catch (err:any) {
-      console.error(err);
-      setError(
-        err.response?.data?.message || "Login failed. Try again."
-      );
+      navigate("/", { replace: true });
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -79,7 +75,7 @@ const Login = () => {
       <div className="login-box">
         <h2>Login</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="input-group">
             <label>Email</label>
             <input
@@ -102,17 +98,20 @@ const Login = () => {
             />
           </div>
 
-          {error && <p className="error-text">{error}</p>}
+          
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="register-text">
-           <a href="/forgot-password">Forgot Password</a>
+          <span onClick={() => navigate("/forgot-password")}>
+            Forgot Password
+          </span>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };
