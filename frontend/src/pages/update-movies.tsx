@@ -137,15 +137,7 @@ const UpdateMovie = () => {
           <input name="rating" value={form.rating} onChange={handleChange} />
           <input name="cast" value={form.cast} onChange={handleChange} />
           <input name="review" value={form.review} onChange={handleChange} />
-          <select
-           name="status" 
-           value={form.status}
-            onChange={handleChange}>
-            <option value="Not Completed">Not Completed</option>
-            <option value="Completed">Completed</option>
-          </select>
-
-          {/* ✅ STATUS DROPDOWN ADDED */}
+          
           <select
             name="status"
             value={form.status}

@@ -87,22 +87,6 @@ const MovieDetails = () => {
             <p><strong>Description:</strong> {movie.description}</p>
           )}
 
-          <p><strong>ID:</strong> {movie.id}</p>
-
-          {movie.createdAt && (
-            <p>
-              <strong>Created:</strong>{" "}
-              {new Date(movie.createdAt).toLocaleString()}
-            </p>
-          )}
-
-          {movie.updatedAt && (
-            <p>
-              <strong>Updated:</strong>{" "}
-              {new Date(movie.updatedAt).toLocaleString()}
-            </p>
-          )}
-
           <div className="action-buttons">
             <button
               className="update-btn"

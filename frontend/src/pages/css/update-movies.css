@@ -21,7 +21,8 @@
 }
 
 .movie-image-section {
-  width: 40%;
+  width: 50%;
+  object-fit: contain;
   text-align: center;
 }
 
@@ -68,4 +69,11 @@
 .movie-fields button:hover {
   background-color: black;
   color: white;
+}
+
+select {
+  width: 84%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
