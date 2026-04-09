@@ -173,7 +173,6 @@ const Getusers = () => {
                     </tbody>
                 </table>
             </div>
-            <ToastContainer />
         </div>
     )
 }

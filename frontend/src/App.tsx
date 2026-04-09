@@ -1,6 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.css';
-
 import Adminhome from './pages/admin-home';
 import Login from './pages/login';
 import Navbar from './pages/navbar';
@@ -16,6 +14,8 @@ import GetSuperMovies from './pages/super-movies';
 import MovieDetails from './pages/movie-details'; 
 import { ToastContainer } from 'react-toastify';
 import SuperUpdate from './pages/super-update';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const router = createBrowserRouter([
   {
@@ -145,7 +145,7 @@ function App() {
   return(
     <>
     <RouterProvider router={router} />;
-    <ToastContainer />
+    <ToastContainer position="top-right" autoClose={3000} />
     </>
   ) 
 }

@@ -59,7 +59,6 @@ const AddUsers = () => {
                     <button type='submit' className='submit-btn'>Add User</button>
                 </form>
             </div>
-            <ToastContainer />
         </div>
     )
 }

@@ -135,7 +135,6 @@ const UpdateUser = () => {
                     {loading ? "Updating..." : "Update"}
                 </button>
             </form>
-            <ToastContainer />
         </div>
     );
 };

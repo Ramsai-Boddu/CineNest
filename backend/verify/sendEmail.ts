@@ -8,7 +8,7 @@ dns.setDefaultResultOrder("ipv4first");
 export const sendOTPMail = async (otp: string, email: string) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",   // ✅ use host instead of service
+      host: "smtp.gmail.com",   
       port: 587,
       secure: false,
       auth: {
@@ -35,3 +35,35 @@ export const sendOTPMail = async (otp: string, email: string) => {
     return false;
   }
 };
+
+export const sendAddUserMail = async (email: string, name: string) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",   
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+      },
+    });
+
+    const mailConfigurations = {
+      from: process.env.MAIL_USER,
+      to: email,
+      subject: "Welcome to CineNest",
+      html: `<h1><b>Welcome to CineNest ${name}!</b></h1><h4>Quickly find movies using powerful search and filters.</h4> <p>Please set your password using the "Forgot Password" option on the login page.</p>`,
+    };
+
+    const info = await transporter.sendMail(mailConfigurations);
+
+    console.log("Welcome Email Sent Successfully");
+    console.log(info.response);
+
+    return true;
+  } catch (error: any) {
+    console.error("Error sending welcome email:", error.message);
+    return false;
+  }
+};
+

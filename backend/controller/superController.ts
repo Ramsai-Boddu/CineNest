@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Movies from "../models/movieModel";
 import User from "../models/userModel";
+import { sendAddUserMail } from "../verify/sendEmail";
 
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -23,7 +24,7 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
     }
 
     const newUser = await User.create({ name, email });
-
+     sendAddUserMail(email,name);
     return res.status(201).json({
       message: "User created successfully",
       status: true,

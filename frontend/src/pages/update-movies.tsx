@@ -153,7 +153,6 @@ const UpdateMovie = () => {
         </div>
       </form>
 
-      <ToastContainer />
     </div>
   );
 };

@@ -134,7 +134,6 @@ const navigate = useNavigate();
 
             </form>
 
-            <ToastContainer />
         </div>
         </div>
     );
